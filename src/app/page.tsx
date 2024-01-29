@@ -4,25 +4,14 @@ import { Image as SImage } from "sanity";
 import { urlForImage } from "../../sanity/lib/image";
 
 const getProductionData = async () => {
-  const res = await client.fetch(`*[_type=='product'] {
-    price,
-    _id,
-    title,
-    image,
-    category -> {name}
-  }`);
+  const res = await client.fetch(`*[_type=='product']`);
   return res;
 };
 
 interface IProduct {
   title: string;
-  _id: string;
   price: number;
-  description: string;
   image: SImage;
-  category: {
-    name: string;
-  };
 }
 
 export default async function Home() {
@@ -31,9 +20,8 @@ export default async function Home() {
   return (
     <div className="text-white grid grid-cols-[repeat, auto] justify-center gap-x-10">
       
-      {data.map((item, i) => (
-        
-        <div key={i}>
+      {data.map((item) => (
+        <div>
           <Image
             width={200}
             height={300}
