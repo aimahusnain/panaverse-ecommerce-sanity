@@ -33,7 +33,7 @@ export default async function Home() {
   return (
     <div className="grid grid-cols-[repeat, auto] justify-center gap-x-10">
       {data.map((item, i) => (
-          <div>
+          <div key={i}>
             <Image
               width={200}
               height={300}
