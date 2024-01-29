@@ -21,7 +21,7 @@ export default async function Home() {
     <div className="text-white grid grid-cols-[repeat, auto] justify-center gap-x-10">
       
       {data.map((item) => (
-        <div>
+        <div key='product'>
           <Image
             width={200}
             height={300}
