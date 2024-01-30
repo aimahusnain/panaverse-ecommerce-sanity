@@ -1,12 +1,8 @@
-import { client } from "@/lib/sanityClient";
-import Image from "next/image";
-import { Image as SImage } from "sanity";
-import { urlForImage } from "../../sanity/lib/image";
+'use client';
 
-const getProductionData = async () => {
-  const res = await client.fetch(`*[_type=='product']`);
-  return res;
-};
+import { client } from "@/lib/sanityClient";
+import { Image as SImage } from "sanity";
+import ProductCard from "./productCard";
 
 interface IProduct {
   title: string;
@@ -15,25 +11,24 @@ interface IProduct {
 }
 
 export default async function Home() {
-  const data: IProduct[] = await getProductionData();
 
+  const getProductionData = async () => {
+    const res = await client.fetch(`*[_type=='product']{
+    title,
+    price,
+    image
+    }`);
+    return res;
+  };
+  
+  
+  const data: IProduct[] = await getProductionData();
+  
   return (
-    <div className="text-white grid grid-cols-[repeat, auto] justify-center gap-x-10">
-      
-      {data.map((item) => (
-        <div key='product'>
-          <Image
-            width={200}
-            height={300}
-            className="max-h-[200px] object-cover object-top"
-            src={urlForImage(item.image).url()}
-            alt="product"
-            />
-          <h1>{item.title}</h1>
-          <h3>${item.price}</h3>
-          <button className="border px-6 py-2 rounded bg-blue-600 text-white">
-            Add to Cart
-          </button>
+    <div className="text-white grid grid-cols-[repeat(3,auto)] justify-center gap-x-20">
+      {data.map((item, index) => (
+        <div key={index}>
+          <ProductCard item={item} />
         </div>
       ))}
     </div>
